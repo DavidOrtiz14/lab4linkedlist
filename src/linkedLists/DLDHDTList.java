@@ -9,7 +9,9 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 	private int length; 
 	
 	public DLDHDTList() { 
-		// ADD CODE HERE to generate empty linked list of this type 
+
+	header= null;
+	trailer =null;
 	}
 	
 	public void addFirstNode(Node<E> nuevo) {
@@ -67,11 +69,12 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 	public Node<E> getNodeAfter(Node<E> target)
 			throws NoSuchElementException {
 		if(((DNode <E>)target).getNext()==trailer){
-			throw new NoSuchElementException("No such element.");
+			throw new NoSuchElementException("List is empty."); 
 		}else
 		{
 		return ((DNode <E>)target).getNext(); 
 		}
+		
 	}
 
 	public Node<E> getNodeBefore(Node<E> target)
@@ -100,7 +103,7 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 			prevNode.setNext(((SNode<E>) target).getNext()); 
 		}
 		((SNode<E>) target).clean();   // clear all references from target
-		length--; 
+		
 	}
 	
 	/**
@@ -125,12 +128,7 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 	 * doubly linked list with dummy header and dummy trailer nodes. 
 	 */
 	public void makeEmpty() { 
-		while (header.getNext() != null) { 
-			DNode<E> nnode = header.getNext(); 
-			header.setElement(null); 
-			header.setNext(null); 
-			header = nnode; 
-		}
+	      destroy();
 		length = 0; 
 	}
 		
