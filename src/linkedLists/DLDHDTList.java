@@ -3,7 +3,7 @@ package linkedLists;
 import java.util.NoSuchElementException;
 
 import linkedLists.AbstractSLList.SNode;
-
+import java.lang.reflect.Array;
 public class DLDHDTList<E> extends AbstractDLList<E> {
 	private DNode<E> header, trailer; 
 	private int length; 
@@ -126,6 +126,23 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 		}
 	}
 	
+	public <T1> T1[] toArray(T1[] array) {
+		int n=0;
+		if(array.length < length) {
+			array = (T1[]) Array.newInstance(array.getClass().getComponentType(), length);
+		}
+		if(array.length > length) {
+			for(int y=length;y<array.length;y++) 
+				array[y]= null;
+			
+			while(header!=null) {
+				array[n]=(T1) header;
+				header=header.getNext();
+				n++;
+			}
+		}
+		return array;
+	}
 	/**
 	 * The execution of this method removes all the data nodes from
 	 * the current instance of the list, leaving it as a valid empty

@@ -7,6 +7,7 @@ package linkedLists;
  *
  */
 
+import java.lang.reflect.Array;
 import java.util.NoSuchElementException;
 
 import linkedLists.LinkedList;
@@ -110,7 +111,23 @@ public class SLFLList<E> extends SLList<E>
 		
 		return this.length;
 	}
-
+	public <T1> T1[] toArray(T1[] array) {
+		int n=0;
+		if(array.length < length) {
+			array = (T1[]) Array.newInstance(array.getClass().getComponentType(), length);
+		}
+		if(array.length > length) {
+			for(int y=length;y<array.length;y++) 
+				array[y]= null;
+			
+			while(first!=null) {
+				array[n]=(T1) first;
+				first=first.getNext();
+				n++;
+			}
+		}
+		return array;
+	}
 	public void removeNode(Node<E> target) {
 		if (target == first) 
 			first = first.getNext(); 
