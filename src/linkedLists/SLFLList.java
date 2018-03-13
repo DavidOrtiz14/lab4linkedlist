@@ -25,31 +25,43 @@ public class SLFLList<E> extends SLList<E>
 	
 	public void addFirstNode(Node<E> nuevo) {
 		// TODO Auto-generated method stub
+		
 		((SNode<E>) nuevo).setNext(first);
-	        first = (SNode<E>)nuevo;
-	        length++;
+		
+        first=((SNode<E>) nuevo);
+        if(length==0) {
+        	last=first;
+        }
+	       length++;
 	}
 
 	public void addNodeAfter(Node<E> target, Node<E> nuevo) {
-		
+	
 		((SNode<E>) nuevo).setNext(((SNode<E>) target).getNext()); 
 		((SNode<E>) target).setNext((SNode<E>) nuevo); 
-		length++; 
-		if((((SNode<E>) nuevo).getNext()==null)){
+	
+		if((((SNode<E>) target)==last)){
 			last= (SNode<E>) nuevo;
 		}
-		
+		length++; 
 	}
 
 	public void addNodeBefore(Node<E> target, Node<E> nuevo) {
-		if (target == first)
-			this.addFirstNode(nuevo); 
-		else { 
-			Node<E> prevNode = getNodeAfter(target);  
-			this.addNodeAfter(prevNode, nuevo); 
+		
+		((SNode<E>) nuevo).setNext(((SNode<E>) target)); 
+		((SNode<E>) target).setNext((SNode<E>) nuevo); 
+		((SNode<E>)(this.getNodeBefore(target))).setNext(((SNode<E>) nuevo));
+		if((((SNode<E>) target)==first)){
+			first= (SNode<E>) nuevo;
 		}
+		length++; 
+	
 	}
-
+	
+	
+	
+	
+	
 	public Node<E> getFirstNode() throws NoSuchElementException {
 		if (first == null)
 			throw new NoSuchElementException("getFirstNode() : linked list is empty..."); 
@@ -60,16 +72,12 @@ public class SLFLList<E> extends SLList<E>
 
 	public Node<E> getLastNode()throws NoSuchElementException 
 		{
-			if (first == null)
+			if (length == 0)
 				throw new NoSuchElementException("getLastNode(): Empty list."); 
-			else { 
-				SNode<E> curr = first; 
-				while (((SNode<E>) curr).getNext() != null){
-					curr = curr.getNext(); 
-				}
-				last=curr;
-				return curr; 
-			}
+			
+				
+				return last; 
+			
 		}
 
 	public Node<E> getNodeAfter(Node<E> target) throws NoSuchElementException {

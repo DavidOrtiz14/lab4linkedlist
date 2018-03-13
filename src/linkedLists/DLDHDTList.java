@@ -9,9 +9,9 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 	private int length; 
 	
 	public DLDHDTList() { 
-
-	header= null;
-	trailer =null;
+     length =0;
+     header = new DNode<>(null,null,trailer);
+		trailer = new DNode<>(null, header, null);
 	}
 	
 	public void addFirstNode(Node<E> nuevo) {
@@ -30,24 +30,34 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 
 	public void addNodeAfter(Node<E> target, Node<E> nuevo) {
 		DNode<E> dnuevo = (DNode<E>) nuevo; 
-		DNode<E> nBefore = (DNode<E>) target; 
-		DNode<E> nAfter = nBefore.getNext(); 
-		nBefore.setNext(dnuevo); 
+		DNode<E> nTarget = (DNode<E>) target; 
+		DNode<E> nAfter=nTarget.getNext();
+		
+		nTarget.setNext(dnuevo); 
 		nAfter.setPrev(dnuevo); 
-		dnuevo.setPrev(nBefore); 
+		dnuevo.setPrev(nTarget); 
 		dnuevo.setNext(nAfter); 
 		length++; 
+		
+		
+	
+		
+		
+      
+		
 	}
 
 	public void addNodeBefore(Node<E> target, Node<E> nuevo) {
-		if(((DNode <E>)target).getPrev()==header){
-			((DNode <E>)nuevo).setNext(((DNode <E>)target));
-		}
-		else{
-			((DNode <E>)nuevo).setPrev(((DNode <E>)target).getPrev());
-			((DNode <E>)nuevo).setNext(((DNode <E>)target));
+		DNode<E> dnuevo = (DNode<E>) nuevo; 
+		DNode<E> nTarget = (DNode<E>) target; 
 		
-		}
+		
+		dnuevo.setPrev(nTarget.getPrev());
+		dnuevo.setNext(nTarget);
+		nTarget.getPrev().setNext(dnuevo);
+		nTarget.setPrev(dnuevo);
+		length++; 
+		
 	}
 
 	public Node<E> createNewNode() {
@@ -92,18 +102,12 @@ public class DLDHDTList<E> extends AbstractDLList<E> {
 	}
 
 	public void removeNode(Node<E> target) {
-		if(((DNode <E>)target).getPrev()==header){
-			header = ((DNode <E>)target).getNext(); 
-		}
-		else if(((DNode <E>)target).getNext()==trailer){
-			trailer =((DNode <E>)target).getPrev();
-		}
-		else { 
-			SNode<E> prevNode = (SNode<E>) this.getNodeBefore(target); 
-			prevNode.setNext(((SNode<E>) target).getNext()); 
-		}
-		((SNode<E>) target).clean();   // clear all references from target
-		
+		DNode<E> targetNode = (DNode<E>) target;
+	
+		((DNode<E>) targetNode).getNext().setPrev( targetNode.getPrev());
+		((DNode<E>)targetNode).getPrev().setNext(targetNode.getNext());
+		targetNode = null;
+		length--;
 	}
 	
 	/**
